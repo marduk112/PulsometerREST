@@ -33,10 +33,5 @@ namespace REST.Models
         }
 
         public System.Data.Entity.DbSet<REST.Models.Book> Books { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
-        }
     }
 }
