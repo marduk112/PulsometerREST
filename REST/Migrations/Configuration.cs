@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
@@ -7,17 +8,15 @@ using REST.Models;
 
 namespace REST.Migrations
 {
-    public class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    public class Configuration : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-        }
-
         protected override void Seed(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            CreateExampleBooks(context);
+        }
+
+        private static void CreateExampleBooks(ApplicationDbContext context)
+        {
             context.Books.AddOrUpdate(x => x.Id,
                 new Book()
                 {
