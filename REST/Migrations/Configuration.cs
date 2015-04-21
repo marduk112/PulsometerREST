@@ -8,11 +8,13 @@ using REST.Models;
 
 namespace REST.Migrations
 {
-    public class Configuration : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
             CreateExampleBooks(context);
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         private static void CreateExampleBooks(ApplicationDbContext context)
