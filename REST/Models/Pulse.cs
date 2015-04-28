@@ -27,8 +27,7 @@ namespace REST.Models
 
             set { _dateCreated = value; }
         }
-        [Required, ForeignKey("ApplicationUser")]
-        public int UserId { get; set; }
+        public int ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         private DateTime? _dateCreated;
