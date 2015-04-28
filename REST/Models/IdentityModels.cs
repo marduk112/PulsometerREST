@@ -29,7 +29,5 @@ namespace REST.Models
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<REST.Models.Book> Books { get; set; }
     }
 }

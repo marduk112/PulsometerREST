@@ -11,6 +11,7 @@ namespace REST.Models
 {
     public class Pulse
     {
+        [ScaffoldColumn(false)]
         public int Id { get; set; }
         [Required]
         public int PulseValue { get; set; }
