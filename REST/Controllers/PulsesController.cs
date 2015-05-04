@@ -20,12 +20,28 @@ namespace REST.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Pulses
-        public IQueryable<Pulse> GetPulses()
+        public IQueryable<PulseDTO> GetPulses()
         {
             if (HttpContext.Current == null || HttpContext.Current.User == null ||
-                HttpContext.Current.User.Identity.Name == null) return db.Pulses;
-            var userName = RequestContext.Principal.Identity.GetUserId();
-            return db.Pulses.Where(p => p.ApplicationUser.Id.Equals(userName));
+                HttpContext.Current.User.Identity.Name == null) 
+                return from p in db.Pulses
+                       select new PulseDTO
+                       {
+                           Id = p.Id,
+                           DateCreated = p.DateCreated,
+                           PulseValue = p.PulseValue,
+                           UserName = p.ApplicationUser.UserName,
+                       };
+            var userId = User.Identity.GetUserId();
+            return from p in db.Pulses
+                   where p.ApplicationUserId.Equals(userId)
+                   select new PulseDTO
+                   {
+                       Id = p.Id,
+                       DateCreated = p.DateCreated,
+                       PulseValue = p.PulseValue,
+                       UserName = p.ApplicationUser.UserName,
+                   };
         }
 
         // GET: api/Pulses/5
