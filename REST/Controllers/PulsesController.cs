@@ -7,8 +7,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Microsoft.AspNet.Identity;
 using REST.Models;
 
 namespace REST.Controllers
@@ -20,7 +22,10 @@ namespace REST.Controllers
         // GET: api/Pulses
         public IQueryable<Pulse> GetPulses()
         {
-            return db.Pulses;
+            if (HttpContext.Current == null || HttpContext.Current.User == null ||
+                HttpContext.Current.User.Identity.Name == null) return db.Pulses;
+            var userName = RequestContext.Principal.Identity.GetUserId();
+            return db.Pulses.Where(p => p.ApplicationUser.Id.Equals(userName));
         }
 
         // GET: api/Pulses/5
