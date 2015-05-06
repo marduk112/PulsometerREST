@@ -1,4 +1,4 @@
-﻿namespace REST.Migrations
+namespace REST.Migrations
 {
     using System;
     using System.Data.Entity;
@@ -26,8 +26,6 @@
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-
         }
     }
 }
