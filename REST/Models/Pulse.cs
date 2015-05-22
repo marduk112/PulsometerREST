@@ -27,7 +27,6 @@ namespace REST.Models
 
             set { _dateCreated = value; }
         }
-        [Required]
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 

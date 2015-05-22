@@ -71,6 +71,7 @@ namespace REST.Controllers
                 return BadRequest();
             }
 
+            pulse.ApplicationUserId = User.Identity.GetUserId();
             db.Entry(pulse).State = EntityState.Modified;
 
             try
@@ -101,6 +102,7 @@ namespace REST.Controllers
                 return BadRequest(ModelState);
             }
 
+            pulse.ApplicationUserId = User.Identity.GetUserId();
             db.Pulses.Add(pulse);
             await db.SaveChangesAsync();
 
