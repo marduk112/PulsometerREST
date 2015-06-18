@@ -19,6 +19,9 @@ using REST.Results;
 
 namespace REST.Controllers
 {
+    /// <summary>
+    /// Account API Controller
+    /// </summary>
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -26,10 +29,18 @@ namespace REST.Controllers
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
+        /// <summary>
+        /// Create object with default params
+        /// </summary>
         public AccountController()
         {
         }
 
+        /// <summary>
+        /// Create object with your own params
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="accessTokenFormat"></param>
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
@@ -37,6 +48,9 @@ namespace REST.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
+        /// <summary>
+        /// User Manager
+        /// </summary>
         public ApplicationUserManager UserManager
         {
             get

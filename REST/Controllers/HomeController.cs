@@ -6,8 +6,15 @@ using System.Web.Mvc;
 
 namespace REST.Controllers
 {
+    /// <summary>
+    /// Api controller for home page
+    /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Action result for index page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";

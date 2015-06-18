@@ -8,8 +8,15 @@ using Newtonsoft.Json.Serialization;
 
 namespace REST
 {
+    /// <summary>
+    /// Web API Config
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// Register filters and routes for our API controllers
+        /// </summary>
+        /// <param name="config"></param>
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services

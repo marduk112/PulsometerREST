@@ -14,10 +14,10 @@ namespace REST.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         PulseValue = c.Int(nullable: false),
                         DateCreated = c.DateTime(nullable: false),
-                        ApplicationUserId = c.String(nullable: false, maxLength: 128),
+                        ApplicationUserId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
                 .Index(t => t.ApplicationUserId);
             
             CreateTable(

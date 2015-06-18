@@ -13,13 +13,29 @@ using REST.Models;
 
 namespace REST
 {
+    /// <summary>
+    /// Startup class
+    /// </summary>
+    /// <remarks></remarks>
     public partial class Startup
     {
+        /// <summary>
+        /// Gets or sets OAuthOptions.
+        /// </summary>
+        /// <value></value>
+        /// <remarks></remarks>
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
+        /// <summary>
+        /// Client Id
+        /// </summary>
         public static string PublicClientId { get; private set; }
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        /// <summary>
+        /// Configure Authentication process(use cookie?, token?), set auth via i.e Facebook
+        /// </summary>
+        /// <param name="app"></param>
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request

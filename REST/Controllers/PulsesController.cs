@@ -15,11 +15,18 @@ using REST.Models;
 
 namespace REST.Controllers
 {
+    /// <summary>
+    /// Pulses API Controller
+    /// </summary>
     public class PulsesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Pulses
+        /// <summary>
+        /// Get all pulses for user from database
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<PulseDTO> GetPulses()
         {
             if (HttpContext.Current == null || HttpContext.Current.User == null ||
@@ -45,6 +52,11 @@ namespace REST.Controllers
         }
 
         // GET: api/Pulses/5
+        /// <summary>
+        /// Get pulse information with appropriate id from database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [ResponseType(typeof(Pulse))]
         public async Task<IHttpActionResult> GetPulse(int id)
         {
@@ -58,6 +70,12 @@ namespace REST.Controllers
         }
 
         // PUT: api/Pulses/5
+        /// <summary>
+        /// Modify existing data(pulse) from/to database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="pulse"></param>
+        /// <returns></returns>
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutPulse(int id, Pulse pulse)
         {
@@ -94,6 +112,11 @@ namespace REST.Controllers
         }
 
         // POST: api/Pulses
+        /// <summary>
+        /// Add new data(pulse) to database
+        /// </summary>
+        /// <param name="pulse"></param>
+        /// <returns></returns>
         [ResponseType(typeof(Pulse))]
         public async Task<IHttpActionResult> PostPulse(Pulse pulse)
         {
@@ -110,6 +133,11 @@ namespace REST.Controllers
         }
 
         // DELETE: api/Pulses/5
+        /// <summary>
+        /// Delete data(pulse) from database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [ResponseType(typeof(Pulse))]
         public async Task<IHttpActionResult> DeletePulse(int id)
         {

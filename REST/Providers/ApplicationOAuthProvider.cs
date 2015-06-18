@@ -13,6 +13,9 @@ using REST.Models;
 
 namespace REST.Providers
 {
+    /// <summary>
+    /// Class that configure authentication and autorization for external login
+    /// </summary>
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
