@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MongoDB.Bson;
 
 namespace REST.Models
 {
@@ -13,7 +14,8 @@ namespace REST.Models
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; set; }
+        //public ObjectId Id { get; set; }
+        //public int Serial { get; set; }
         /// <summary>
         /// Pulse
         /// </summary>
