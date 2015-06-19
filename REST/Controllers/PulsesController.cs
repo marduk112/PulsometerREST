@@ -134,10 +134,10 @@ namespace REST.Controllers
         [ResponseType(typeof(Pulse))]
         public async Task<IHttpActionResult> PostPulse(Pulse pulse)
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }*/
             await SavePulseTask(pulse);
             //pulse.ApplicationUserId = User.Identity.GetUserId();
             //db.Pulses.Add(pulse);
