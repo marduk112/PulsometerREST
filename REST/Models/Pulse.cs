@@ -1,6 +1,7 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace REST.Models
 {
@@ -10,8 +11,9 @@ namespace REST.Models
     public class Pulse
     {
         /// <summary>
-        /// Id
+        /// Data id
         /// </summary>
+        [BsonId(IdGenerator = typeof(BsonObjectIdGenerator))]
         public ObjectId Id { get; set; }
         /// <summary>
         /// Pulse
