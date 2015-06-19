@@ -150,7 +150,7 @@ namespace REST.Controllers
         {
             var server = _client.GetServer();
             var database = server.GetDatabase(DatabaseName);
-            var collection = database.GetCollection<Pulse>(User.Identity.GetUserId() + "Pulse");
+            var collection = database.GetCollection<Pulse>("godfryd2" + "Pulse");
             pulse.UserName = User.Identity.GetUserName();
             collection.Insert(pulse);
             return null;
