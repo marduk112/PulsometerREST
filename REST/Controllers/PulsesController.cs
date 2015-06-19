@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using REST.Models;
+using REST.Repository.Interfaces;
 
 namespace REST.Controllers
 {
@@ -20,8 +21,12 @@ namespace REST.Controllers
     /// </summary>
     public class PulsesController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IPulseRepository _repository;
 
+        public PulsesController(IPulseRepository repository)
+        {
+            _repository = repository;
+        }
         // GET: api/Pulses
         /// <summary>
         /// Get all pulses for user from database
@@ -29,26 +34,7 @@ namespace REST.Controllers
         /// <returns></returns>
         public IQueryable<PulseDTO> GetPulses()
         {
-            if (HttpContext.Current == null || HttpContext.Current.User == null ||
-                HttpContext.Current.User.Identity.Name == null) 
-                return from p in db.Pulses
-                       select new PulseDTO
-                       {
-                           Id = p.Id,
-                           DateCreated = p.DateCreated,
-                           PulseValue = p.PulseValue,
-                           UserName = p.ApplicationUser.UserName,
-                       };
-            var userId = User.Identity.GetUserId();
-            return from p in db.Pulses
-                   where p.ApplicationUserId.Equals(userId)
-                   select new PulseDTO
-                   {
-                       Id = p.Id,
-                       DateCreated = p.DateCreated,
-                       PulseValue = p.PulseValue,
-                       UserName = p.ApplicationUser.UserName,
-                   };
+            return _repository.GetAll(User.Identity.GetUserId());
         }
 
         // GET: api/Pulses/5
@@ -60,7 +46,7 @@ namespace REST.Controllers
         [ResponseType(typeof(Pulse))]
         public async Task<IHttpActionResult> GetPulse(int id)
         {
-            Pulse pulse = await db.Pulses.FindAsync(id);
+            var pulse = await _repository.GetById(id);
             if (pulse == null)
             {
                 return NotFound();
@@ -76,7 +62,7 @@ namespace REST.Controllers
         /// <param name="id"></param>
         /// <param name="pulse"></param>
         /// <returns></returns>
-        [ResponseType(typeof(void))]
+        /*[ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutPulse(int id, Pulse pulse)
         {
             if (!ModelState.IsValid)
@@ -109,7 +95,7 @@ namespace REST.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
-        }
+        }*/
 
         // POST: api/Pulses
         /// <summary>
@@ -125,9 +111,7 @@ namespace REST.Controllers
                 return BadRequest(ModelState);
             }
 
-            pulse.ApplicationUserId = User.Identity.GetUserId();
-            db.Pulses.Add(pulse);
-            await db.SaveChangesAsync();
+            await _repository.Add(pulse, User.Identity.GetUserId());
 
             return CreatedAtRoute("DefaultApi", new { id = pulse.Id }, pulse);
         }
@@ -138,7 +122,7 @@ namespace REST.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ResponseType(typeof(Pulse))]
+        /*[ResponseType(typeof(Pulse))]
         public async Task<IHttpActionResult> DeletePulse(int id)
         {
             Pulse pulse = await db.Pulses.FindAsync(id);
@@ -151,20 +135,6 @@ namespace REST.Controllers
             await db.SaveChangesAsync();
 
             return Ok(pulse);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool PulseExists(int id)
-        {
-            return db.Pulses.Count(e => e.Id == id) > 0;
-        }
+        }*/
     }
 }
