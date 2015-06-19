@@ -143,7 +143,7 @@ namespace REST.Controllers
             //db.Pulses.Add(pulse);
             //await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = pulse.Id.Pid}, pulse);
+            return CreatedAtRoute("DefaultApi", new { id = 1}, pulse);
         }
 
         private Task SavePulseTask(Pulse pulse)
