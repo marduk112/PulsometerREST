@@ -18,7 +18,7 @@ namespace REST.Controllers
     /// </summary>
     public class PulsesController : ApiController
     {
-        private MongoClient _client = new MongoClient(ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString);
+        private MongoClient _client = new MongoClient("mongodb://appharbor_l8c6n1h5:kfdpipuifqmrdh6rusnedalsd@ds047812.mongolab.com:47812/appharbor_l8c6n1h5");
         private const string DatabaseName = "appharbor_l8c6n1h5";
         // GET: api/Pulses
         /// <summary>
