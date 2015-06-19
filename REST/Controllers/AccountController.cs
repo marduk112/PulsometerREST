@@ -8,11 +8,11 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using MongoDB.AspNet.Identity;
 using REST.Models;
 using REST.Providers;
 using REST.Results;
@@ -27,16 +27,13 @@ namespace REST.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private UserManager<ApplicationUser> _userManager;
-        //private ApplicationUserManager _userManager;
+        private ApplicationUserManager _userManager;
 
         /// <summary>
         /// Create object with default params
         /// </summary>
         public AccountController()
         {
-            UserManager = new UserManager<ApplicationUser>(
-                new UserStore<ApplicationUser>("Mongo"));
         }
 
         /// <summary>
@@ -54,7 +51,7 @@ namespace REST.Controllers
         /// <summary>
         /// User Manager
         /// </summary>
-        public UserManager<ApplicationUser> UserManager
+        public ApplicationUserManager UserManager
         {
             get
             {
@@ -104,7 +101,7 @@ namespace REST.Controllers
 
             List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
 
-            foreach (UserLoginInfo linkedAccount in user.Logins)
+            foreach (IdentityUserLogin linkedAccount in user.Logins)
             {
                 logins.Add(new UserLoginInfoViewModel
                 {

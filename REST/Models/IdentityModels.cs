@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using MongoDB.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace REST.Models
@@ -16,15 +16,33 @@ namespace REST.Models
             // Add custom user claims here
             return userIdentity;
         }
-
-        /// <summary>
-        /// User email address
-        /// </summary>
-        public string Email { get; set; }
     }
 
-    public class ApplicationDbContext
+    /// <summary>
+    /// DB context of application
+    /// </summary>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        /// <summary>
+        /// Sets connectionstring
+        /// </summary>
+        public ApplicationDbContext()
+            : base("DefaultConnection", throwIfV1Schema: false)
+        {
+        }
         
+        /// <summary>
+        /// Creates new object of ApplicationDbContext class
+        /// </summary>
+        /// <returns></returns>
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
+
+        /// <summary>
+        /// Pulses table in database
+        /// </summary>
+        public System.Data.Entity.DbSet<REST.Models.Pulse> Pulses { get; set; }
     }
 }
