@@ -31,7 +31,7 @@ namespace REST.Models
 
         public int GetHashCode(DateDto obj)
         {
-            return obj.GetHashCode();
+            return 1;
         }
     }
 }
