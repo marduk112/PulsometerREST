@@ -17,7 +17,6 @@ namespace REST.Models
         /// <summary>
         /// Id
         /// </summary>
-        [ScaffoldColumn(false)]
         public int Id { get; set; }
         /// <summary>
         /// Pulse
