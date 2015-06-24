@@ -13,6 +13,7 @@ namespace REST.Repository.Implementations
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private bool _disposed = false;
+        private static readonly IEqualityComparer<DateDto> EqualityComparer = new DateDtoComparer();
 
         public IQueryable<PulseDTO> GetAll(string userId)
         {
@@ -39,15 +40,15 @@ namespace REST.Repository.Implementations
             await db.SaveChangesAsync();
         }
 
-        public IQueryable<DateDTO> GetMeasurementsDates(string userId)
+        public IQueryable<DateDto> GetMeasurementsDates(string userId)
         {
             return (from p in db.Pulses
                 where p.ApplicationUserId.Equals(userId)
-                select new DateDTO
+                select new DateDto
                 {
                     MeasurementDate = p.DateCreated,
                     //Id = p.Id,
-                }).Distinct(new DateDTOComparer());
+                }).Distinct(EqualityComparer);
         }
 
         public async Task<IQueryable<PulseDTO>> GetMeasurements(string userId, int id)

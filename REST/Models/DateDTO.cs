@@ -7,7 +7,10 @@ using System.Web;
 
 namespace REST.Models
 {
-    public class DateDTO
+    /// <summary>
+    /// Date Data Transfer Object
+    /// </summary>
+    public class DateDto
     {
         /// <summary>
         /// Date of measurement
@@ -16,14 +19,17 @@ namespace REST.Models
         //public int Id { get; set; }
     }
 
-    public class DateDTOComparer : IEqualityComparer<DateDTO>
+    /// <summary>
+    /// Comparer for DateDTO class
+    /// </summary>
+    public class DateDtoComparer : IEqualityComparer<DateDto>
     {
-        public bool Equals(DateDTO x, DateDTO y)
+        public bool Equals(DateDto x, DateDto y)
         {
             return x.MeasurementDate.Equals(y.MeasurementDate);
         }
 
-        public int GetHashCode(DateDTO obj)
+        public int GetHashCode(DateDto obj)
         {
             return obj.MeasurementDate.GetHashCode();
         }

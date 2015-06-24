@@ -38,7 +38,7 @@ namespace REST.Controllers
         }
 
         [Route("api/GetMeasurementsDates"), HttpGet]
-        public IQueryable<DateDTO> MeasurementsDates()
+        public IQueryable<DateDto> MeasurementsDates()
         {
            return  _repository.GetMeasurementsDates(User.Identity.GetUserId());
         }
