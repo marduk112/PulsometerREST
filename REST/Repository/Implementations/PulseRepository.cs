@@ -47,7 +47,7 @@ namespace REST.Repository.Implementations
                 {
                     MeasurementDate = p.DateCreated,
                     //Id = p.Id,
-                }).Distinct();
+                }).Distinct(new DateDTOComparer());
         }
 
         public async Task<IQueryable<PulseDTO>> GetMeasurements(string userId, int id)
