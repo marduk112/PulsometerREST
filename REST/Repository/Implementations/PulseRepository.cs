@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -36,6 +37,30 @@ namespace REST.Repository.Implementations
             pulse.ApplicationUserId = userId;
             db.Pulses.Add(pulse);
             await db.SaveChangesAsync();
+        }
+
+        public IQueryable<DateDTO> GetMeasurementsDates(string userId)
+        {
+            return (from p in db.Pulses
+                   where p.ApplicationUserId.Equals(userId)
+                   select new DateDTO
+                   {
+                       MeasurementDate = p.DateCreated
+                   }).Distinct();
+        }
+
+        public IQueryable<PulseDTO> GetMeasurements(string userId, DateTime dateTime)
+        {
+            var userName = db.Users.Find(userId).UserName;
+            return from p in db.Pulses
+                where p.ApplicationUserId.Equals(userId) && p.DateCreated.Equals(dateTime)
+                select new PulseDTO
+                {
+                    Id = p.Id,
+                    DateCreated = p.DateCreated,
+                    PulseValue = p.PulseValue,
+                    UserName = userName,
+                };
         }
 
         protected void Dispose(bool disposing)
