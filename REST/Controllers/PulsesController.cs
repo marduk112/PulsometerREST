@@ -43,7 +43,7 @@ namespace REST.Controllers
            return  _repository.GetMeasurementsDates(User.Identity.GetUserId());
         }
 
-        [Route("api/GetMeasurements"), HttpGet]
+        [Route("api/GetMeasurements"), HttpPost]
         public IQueryable<PulseDTO> MeasurementsDates([FromBody]DateDTO dateTime)
         {
             return _repository.GetMeasurements(User.Identity.GetUserId(), dateTime);
