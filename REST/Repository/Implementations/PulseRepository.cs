@@ -49,11 +49,11 @@ namespace REST.Repository.Implementations
                    }).Distinct();
         }
 
-        public IQueryable<PulseDTO> GetMeasurements(string userId, DateTime dateTime)
+        public IQueryable<PulseDTO> GetMeasurements(string userId, DateDTO dateTime)
         {
             var userName = db.Users.Find(userId).UserName;
             return from p in db.Pulses
-                where p.ApplicationUserId.Equals(userId) && p.DateCreated.Equals(dateTime)
+                where p.ApplicationUserId.Equals(userId) && p.DateCreated.Equals(dateTime.MeasurementDate)
                 select new PulseDTO
                 {
                     Id = p.Id,
