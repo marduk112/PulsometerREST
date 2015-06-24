@@ -13,7 +13,7 @@ namespace REST.Models
         /// Date of measurement
         /// </summary>
         public DateTime MeasurementDate { get; set; }
-        public int Id { get; set; }
+       
     }
 
     public class DateDTOComparer : IEqualityComparer<DateDTO>
