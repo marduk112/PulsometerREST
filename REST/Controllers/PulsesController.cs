@@ -43,11 +43,12 @@ namespace REST.Controllers
            return  _repository.GetMeasurementsDates(User.Identity.GetUserId());
         }
 
-        [Route("api/GetMeasurements"), HttpGet]
-        public async Task<IQueryable<PulseDTO>> MeasurementsDates(int id)
+        [Route("api/GetMeasurements"), HttpPost]
+        [ResponseType(typeof(IQueryable<PulseDTO>))]
+        public async Task<IHttpActionResult> MeasurementsDates([FromBody] DateDto date)
         {
-            var pulses = await _repository.GetMeasurements(User.Identity.GetUserId(), id);
-            return pulses;
+            var pulses = await _repository.GetMeasurements(User.Identity.GetUserId(), date);
+            return Ok(pulses);
         }
 
             // GET: api/Pulses/5
@@ -56,7 +57,7 @@ namespace REST.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ResponseType(typeof(IQueryable<PulseDTO>))]
+        /*[ResponseType(typeof(IQueryable<PulseDTO>))]
         public async Task<IHttpActionResult> GetPulse(int id)
         {
             var pulses = await _repository.GetMeasurements(User.Identity.GetUserId(), id);
@@ -66,7 +67,7 @@ namespace REST.Controllers
             }
 
             return Ok(pulses);
-        }
+        }*/
 
         // PUT: api/Pulses/5
         /// <summary>

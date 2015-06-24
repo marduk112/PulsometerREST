@@ -48,15 +48,14 @@ namespace REST.Repository.Implementations
                 {
                     MeasurementDate = p.DateCreated,
                     //Id = p.Id,
-                }).Distinct(EqualityComparer);
+                }).Distinct();
         }
 
-        public async Task<IQueryable<PulseDTO>> GetMeasurements(string userId, int id)
+        public async Task<IQueryable<PulseDTO>> GetMeasurements(string userId, DateDto date)
         {
-            var date = (await db.Pulses.FindAsync(id)).DateCreated;
             var userName = db.Users.Find(userId).UserName;
             return from p in db.Pulses
-                where p.ApplicationUserId.Equals(userId) && p.DateCreated.Equals(date)
+                where p.ApplicationUserId.Equals(userId) && p.DateCreated.Equals(date.MeasurementDate)
                 select new PulseDTO
                 {
                     Id = p.Id,
