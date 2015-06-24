@@ -21,10 +21,10 @@ namespace REST.Models
         /// <summary>
         /// Date of analysis
         /// </summary>
-        public DateTime DateCreated { get; set; }
+        //public DateTime DateCreated { get; set; }
         /// <summary>
         /// User name
         /// </summary>
-        public string UserName { get; set; }
+        //public string UserName { get; set; }
     }
 }

@@ -22,9 +22,7 @@ namespace REST.Repository.Implementations
                    select new PulseDTO
                    {
                        Id = p.Id,
-                       DateCreated = p.DateCreated,
                        PulseValue = p.PulseValue,
-                       UserName = p.ApplicationUser.UserName,
                    };
         }
 
@@ -59,9 +57,7 @@ namespace REST.Repository.Implementations
                 select new PulseDTO
                 {
                     Id = p.Id,
-                    DateCreated = p.DateCreated,
                     PulseValue = p.PulseValue,
-                    UserName = userName,
                 };
         }
 
