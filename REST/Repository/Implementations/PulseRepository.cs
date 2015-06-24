@@ -46,9 +46,9 @@ namespace REST.Repository.Implementations
                 select new DateDTO
                 {
                     MeasurementDate = p.DateCreated,
-                    Id = p.Id,
+                    //Id = p.Id,
                 };
-            var distinctResult = result.Distinct(new DateDTOComparer());
+            var distinctResult = result/*.Distinct(new DateDTOComparer())*/;
             return distinctResult;
         }
 
