@@ -41,13 +41,13 @@ namespace REST.Repository.Implementations
 
         public IQueryable<DateDTO> GetMeasurementsDates(string userId)
         {
-            return from p in db.Pulses
+            return (from p in db.Pulses
                 where p.ApplicationUserId.Equals(userId)
                 select new DateDTO
                 {
                     MeasurementDate = p.DateCreated,
                     //Id = p.Id,
-                };
+                }).Distinct();
         }
 
         public async Task<IQueryable<PulseDTO>> GetMeasurements(string userId, int id)
