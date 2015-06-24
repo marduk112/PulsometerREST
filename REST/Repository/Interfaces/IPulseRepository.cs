@@ -12,6 +12,6 @@ namespace REST.Repository.Interfaces
         Task<Pulse> GetById(int id);
         Task Add(Pulse pulse, string userId);
         IQueryable<DateDTO> GetMeasurementsDates(string userId);
-        IQueryable<PulseDTO> GetMeasurements(string userId, DateDTO dateTime);
+        Task<IQueryable<PulseDTO>> GetMeasurements(string userId, int id);
     }
 }
