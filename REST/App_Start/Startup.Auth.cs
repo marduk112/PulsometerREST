@@ -78,7 +78,7 @@ namespace REST
             {
                 ClientId = "233205194812-a9gb3u4i4didt390u6k1l2sfu93mdvpv.apps.googleusercontent.com",
                 ClientSecret = "F1IPtcZk16yTcLqgw56m4A4E",
-                CallbackPath = new PathString("/api/Account/ManageInfo"),
+                CallbackPath = new PathString("/"),
             });
         }
     }
