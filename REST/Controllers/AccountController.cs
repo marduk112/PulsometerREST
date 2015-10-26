@@ -360,7 +360,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 IdentityUser user = new IdentityUser
                 {
                     UserName = model.Email,
-                    Email = model.Email,
+                    //Email = model.Email,
                 };
                 user.Logins.Add(new IdentityUserLogin
                 {
