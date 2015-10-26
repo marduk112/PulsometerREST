@@ -21,7 +21,7 @@ namespace REST.Models
     /// <summary>
     /// DB context of application
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         /// <summary>
         /// Sets connectionstring

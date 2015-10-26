@@ -41,11 +41,11 @@ namespace REST.Models
         /// <summary>
         /// Foreign key to AppNetUsers table
         /// </summary>
-        public string ApplicationUserId { get; set; }
+        public string IdentityUserId { get; set; }
         /// <summary>
         /// Atribute for get data about user
         /// </summary>
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual IdentityUser IdentityUser { get; set; }
 
         private DateTime? _dateCreated;
     }
