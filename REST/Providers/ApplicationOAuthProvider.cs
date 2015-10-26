@@ -19,38 +19,67 @@ namespace REST.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
+        private readonly Func<UserManager<IdentityUser>> _userManagerFactory;
 
-        public ApplicationOAuthProvider(string publicClientId)
+        public ApplicationOAuthProvider(string publicClientId, Func<UserManager<IdentityUser>> userManagerFactory)
         {
             if (publicClientId == null)
             {
                 throw new ArgumentNullException("publicClientId");
             }
 
-            _publicClientId = publicClientId;
-        }
-
-        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
-        {
-            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
-
-            if (user == null)
+            if (userManagerFactory == null)
             {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
-                return;
+                throw new ArgumentNullException("userManagerFactory");
             }
 
-            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-               OAuthDefaults.AuthenticationType);
-            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
-                CookieAuthenticationDefaults.AuthenticationType);
+            _publicClientId = publicClientId;
+            _userManagerFactory = userManagerFactory;
+        }
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
-            AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-            context.Validated(ticket);
-            context.Request.Context.Authentication.SignIn(cookiesIdentity);
+        //public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        //{
+        //    var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+
+        //    ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+
+        //    if (user == null)
+        //    {
+        //        context.SetError("invalid_grant", "The user name or password is incorrect.");
+        //        return;
+        //    }
+
+        //    ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
+        //       OAuthDefaults.AuthenticationType);
+        //    ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
+        //        CookieAuthenticationDefaults.AuthenticationType);
+
+        //    AuthenticationProperties properties = CreateProperties(user.UserName);
+        //    AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+        //    context.Validated(ticket);
+        //    context.Request.Context.Authentication.SignIn(cookiesIdentity);
+        //}
+        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        {
+            using (UserManager<IdentityUser> userManager = _userManagerFactory())
+            {
+                IdentityUser user = await userManager.FindAsync(context.UserName, context.Password);
+
+                if (user == null)
+                {
+                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    return;
+                }
+
+                ClaimsIdentity oAuthIdentity = await userManager.CreateIdentityAsync(user,
+                    context.Options.AuthenticationType);
+                ClaimsIdentity cookiesIdentity = await userManager.CreateIdentityAsync(user,
+                    CookieAuthenticationDefaults.AuthenticationType);
+                AuthenticationProperties properties = CreateProperties(user.UserName);
+                AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
+                context.Validated(ticket);
+                context.Request.Context.Authentication.SignIn(cookiesIdentity);
+            }
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
