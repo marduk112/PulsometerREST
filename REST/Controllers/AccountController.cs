@@ -68,13 +68,13 @@ namespace REST.Controllers
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public async Task<UserInfoViewModel> GetUserInfo()
+        public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-            var user = await UserManager.FindByNameAsync(User.Identity.GetUserName());
+            
             return new UserInfoViewModel
             {
-                Email = user.Email,
+                Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
