@@ -343,36 +343,42 @@ namespace ExternalProviderAuthentication.Web.Controllers
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+                if (externalLogin == null)
+                {
+                    return InternalServerError(new Exception("externalLogin"));
+                }
+
+                IdentityUser user = new IdentityUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                };
+                user.Logins.Add(new IdentityUserLogin
+                {
+                    LoginProvider = externalLogin.LoginProvider,
+                    ProviderKey = externalLogin.ProviderKey,
+                });
+                IdentityResult result = await UserManager.CreateAsync(user);
+                IHttpActionResult errorResult = GetErrorResult(result);
+
+                if (errorResult != null)
+                {
+                    return errorResult;
+                }
             }
-
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-            if (externalLogin == null)
+            catch (Exception e)
             {
-                return InternalServerError();
+                return InternalServerError(new Exception(e.Message));
             }
-
-            IdentityUser user = new IdentityUser
-            {
-                UserName = model.Email,
-                //Email = model.Email,
-            };
-            user.Logins.Add(new IdentityUserLogin
-            {
-                LoginProvider = externalLogin.LoginProvider,
-                ProviderKey = externalLogin.ProviderKey
-            });
-            IdentityResult result = await UserManager.CreateAsync(user);
-            IHttpActionResult errorResult = GetErrorResult(result);
-
-            if (errorResult != null)
-            {
-                return errorResult;
-            }
-
             return Ok();
         }
 
@@ -397,7 +403,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
         {
             if (result == null)
             {
-                return InternalServerError();
+                return InternalServerError(new Exception("error result"));
             }
 
             if (!result.Succeeded)
