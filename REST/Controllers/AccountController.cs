@@ -358,7 +358,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
             ApplicationUser user = new ApplicationUser
             {
                 UserName = model.Email,
-                //Email = model.Email,
+                Email = model.Email,
             };
             user.Logins.Add(new IdentityUserLogin
             {
