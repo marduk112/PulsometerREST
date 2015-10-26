@@ -29,14 +29,14 @@ namespace ExternalProviderAuthentication.Web.Controllers
         {
         }
 
-        public AccountController(UserManager<ApplicationUser> userManager,
+        public AccountController(UserManager<IdentityUser> userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public UserManager<IdentityUser> UserManager { get; private set; }
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
@@ -66,7 +66,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
             if (user == null)
             {
@@ -244,7 +244,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            IdentityUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                 externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
@@ -320,7 +320,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            ApplicationUser user = new ApplicationUser
+            IdentityUser user = new IdentityUser
             {
                 UserName = model.Email,
                 Email = model.Email,
@@ -355,10 +355,10 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 return InternalServerError();
             }
 
-            ApplicationUser user = new ApplicationUser
+            IdentityUser user = new IdentityUser
             {
                 UserName = model.Email,
-                Email = model.Email,
+                //Email = model.Email,
             };
             user.Logins.Add(new IdentityUserLogin
             {

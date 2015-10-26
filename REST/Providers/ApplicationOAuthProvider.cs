@@ -19,9 +19,9 @@ namespace REST.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly string _publicClientId;
-        private readonly Func<UserManager<ApplicationUser>> _userManagerFactory;
+        private readonly Func<UserManager<IdentityUser>> _userManagerFactory;
 
-        public ApplicationOAuthProvider(string publicClientId, Func<UserManager<ApplicationUser>> userManagerFactory)
+        public ApplicationOAuthProvider(string publicClientId, Func<UserManager<IdentityUser>> userManagerFactory)
         {
             if (publicClientId == null)
             {
@@ -61,9 +61,9 @@ namespace REST.Providers
         //}
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            using (UserManager<ApplicationUser> userManager = _userManagerFactory())
+            using (UserManager<IdentityUser> userManager = _userManagerFactory())
             {
-                ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+                IdentityUser user = await userManager.FindAsync(context.UserName, context.Password);
 
                 if (user == null)
                 {
