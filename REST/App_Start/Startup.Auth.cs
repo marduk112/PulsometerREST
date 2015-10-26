@@ -70,15 +70,15 @@ namespace REST
             //    consumerKey: "",
             //    consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //    appId: "",
-            //    appSecret: "");
+            app.UseFacebookAuthentication(
+                appId: "478916338953318",
+                appSecret: "92c166393ce39d78ece1beda278853e5");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "233205194812-a9gb3u4i4didt390u6k1l2sfu93mdvpv.apps.googleusercontent.com",
                 ClientSecret = "F1IPtcZk16yTcLqgw56m4A4E",
-                CallbackPath = new PathString("/api/Account/UserInfo"),
+                CallbackPath = new PathString("/api/Account/ManageInfo"),
             });
         }
     }
