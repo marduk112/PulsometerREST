@@ -1,3 +1,7 @@
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using REST.Models;
+
 namespace REST.Migrations
 {
     using System;
@@ -16,16 +20,23 @@ namespace REST.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            //Create new test user
+            using (var um = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new ApplicationDbContext())))
+            {
+                const string email = "godfryd2@gmail.com";
+                var existingUser = um.FindByEmail(email);
+                if (existingUser == null)
+                {
+                    um.Create(new IdentityUser
+                    {
+                        Email = email,
+                        EmailConfirmed = true,
+                        UserName = email,
+                        LockoutEnabled = false,
+                    },
+                    "Test1#");
+                }
+            }
         }
     }
 }

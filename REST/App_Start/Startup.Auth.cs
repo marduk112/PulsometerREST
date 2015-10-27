@@ -55,17 +55,14 @@ namespace REST
         {
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
-            //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
             
             // Configure the application for OAuth based flow
-            
-            
 
             // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
@@ -87,8 +84,24 @@ namespace REST
             {
                 ClientId = "233205194812-a9gb3u4i4didt390u6k1l2sfu93mdvpv.apps.googleusercontent.com",
                 ClientSecret = "F1IPtcZk16yTcLqgw56m4A4E",
-                CallbackPath = new PathString("/api/Account/ManageInfo"),
             });
+            //Create new test user
+            using (var um = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new ApplicationDbContext())))
+            {
+                const string email = "godfryd2@gmail.com";
+                var existingUser = um.FindByEmail(email);
+                if (existingUser == null)
+                {
+                    um.Create(new IdentityUser
+                    {
+                        Email = email,
+                        EmailConfirmed = true,
+                        UserName = email,
+                        LockoutEnabled = false,
+                    },
+                    "Test1#");
+                }
+            }
         }
     }
 }

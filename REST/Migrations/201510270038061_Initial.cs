@@ -14,11 +14,11 @@ namespace REST.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         PulseValue = c.Int(nullable: false),
                         DateCreated = c.DateTime(nullable: false),
-                        ApplicationUserId = c.String(maxLength: 128),
+                        IdentityUserId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
-                .Index(t => t.ApplicationUserId);
+                .ForeignKey("dbo.AspNetUsers", t => t.IdentityUserId)
+                .Index(t => t.IdentityUserId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -36,6 +36,7 @@ namespace REST.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
+                        Discriminator = c.String(nullable: true, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
@@ -93,7 +94,7 @@ namespace REST.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Pulses", "ApplicationUserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Pulses", "IdentityUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
@@ -103,7 +104,7 @@ namespace REST.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Pulses", new[] { "ApplicationUserId" });
+            DropIndex("dbo.Pulses", new[] { "IdentityUserId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");

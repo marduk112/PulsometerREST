@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -343,41 +344,35 @@ namespace ExternalProviderAuthentication.Web.Controllers
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-                if (externalLogin == null)
-                {
-                    return InternalServerError(new Exception("externalLogin"));
-                }
-
-                IdentityUser user = new IdentityUser
-                {
-                    UserName = model.Email,
-                    //Email = model.Email,
-                };
-                user.Logins.Add(new IdentityUserLogin
-                {
-                    LoginProvider = externalLogin.LoginProvider,
-                    ProviderKey = externalLogin.ProviderKey,
-                });
-                IdentityResult result = await UserManager.CreateAsync(user);
-                IHttpActionResult errorResult = GetErrorResult(result);
-
-                if (errorResult != null)
-                {
-                    return errorResult;
-                }
+                return BadRequest(ModelState);
             }
-            catch (Exception e)
+
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+            if (externalLogin == null)
             {
-                return InternalServerError(new Exception(e.Message));
+                return InternalServerError(new Exception("externalLogin"));
+            }
+
+            IdentityUser user = new IdentityUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+            };
+            user.Logins.Add(new IdentityUserLogin
+            {
+                UserId = user.Id,
+                LoginProvider = externalLogin.LoginProvider,
+                ProviderKey = externalLogin.ProviderKey,
+            });
+            IdentityResult result = await UserManager.CreateAsync(user);
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
             }
             return Ok();
         }
