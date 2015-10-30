@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using REST.App_Start;
 
 namespace REST
 {
@@ -23,7 +24,7 @@ namespace REST
             //remove xml formatter
             var formatters = GlobalConfiguration.Configuration.Formatters;
             formatters.Remove(formatters.XmlFormatter);
-
+            //formatters.JsonFormatter.SerializerSettings.Converters.Add(new CustomDateTimeConverter());
         }
     }
 }

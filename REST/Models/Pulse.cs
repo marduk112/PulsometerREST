@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.Provider;
+using Newtonsoft.Json;
 
 namespace REST.Models
 {
@@ -23,30 +24,21 @@ namespace REST.Models
         /// </summary>
         [Required]
         public int PulseValue { get; set; }
+
         /// <summary>
         /// Date of analysis
         /// </summary>
         [Required]
-        public DateTime DateCreated
-        {
-            get
-            {
-                return _dateCreated.HasValue
-                   ? _dateCreated.Value
-                   : DateTimeOffset.UtcNow.UtcDateTime;
-            }
-
-            set { _dateCreated = value; }
-        }
+        public DateTime DateCreated { get; set; }
         /// <summary>
         /// Foreign key to AppNetUsers table
         /// </summary>
+        [JsonIgnore]
         public string IdentityUserId { get; set; }
         /// <summary>
         /// Atribute for get data about user
         /// </summary>
+        [JsonIgnore]
         public virtual IdentityUser IdentityUser { get; set; }
-
-        private DateTime? _dateCreated;
     }
 }

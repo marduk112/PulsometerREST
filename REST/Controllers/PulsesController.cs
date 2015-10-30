@@ -19,10 +19,15 @@ namespace REST.Controllers
     /// <summary>
     /// Pulses API Controller
     /// </summary>
+    [Authorize]
     public class PulsesController : ApiController
     {
         private IPulseRepository _repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PulsesController"/> class.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
         public PulsesController(IPulseRepository repository)
         {
             _repository = repository;
@@ -37,79 +42,28 @@ namespace REST.Controllers
             return _repository.GetAll(User.Identity.GetUserId());
         }
 
+        /// <summary>
+        /// Gets the measurements.
+        /// </summary>
+        /// <returns></returns>
         [Route("api/GetMeasurementsDates"), HttpGet]
-        public IQueryable<DateDto> MeasurementsDates()
+        public IQueryable<DateDto> GetMeasurementsDates()
         {
            return  _repository.GetMeasurementsDates(User.Identity.GetUserId());
         }
 
-        [Route("api/GetMeasurements"), HttpPost]
+        /// <summary>
+        /// Gets the measurements with date.
+        /// </summary>
+        /// <param name="measurementDate">The measurement date.</param>
+        /// <returns></returns>
+        [Route("api/GetMeasurementsWithDate"), HttpGet]
         [ResponseType(typeof(IQueryable<PulseDTO>))]
-        public async Task<IHttpActionResult> MeasurementsDates([FromBody] DateDto date)
+        public IHttpActionResult GetMeasurementsWithDate(DateTime measurementDate)
         {
-            var pulses = await _repository.GetMeasurements(User.Identity.GetUserId(), date);
+            var pulses = _repository.GetMeasurements(User.Identity.GetUserId(), measurementDate);
             return Ok(pulses);
         }
-
-            // GET: api/Pulses/5
-        /// <summary>
-        /// Get pulse information with appropriate id from database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        /*[ResponseType(typeof(IQueryable<PulseDTO>))]
-        public async Task<IHttpActionResult> GetPulse(int id)
-        {
-            var pulses = await _repository.GetMeasurements(User.Identity.GetUserId(), id);
-            if (pulses == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(pulses);
-        }*/
-
-        // PUT: api/Pulses/5
-        /// <summary>
-        /// Modify existing data(pulse) from/to database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="pulse"></param>
-        /// <returns></returns>
-        /*[ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPulse(int id, Pulse pulse)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != pulse.Id)
-            {
-                return BadRequest();
-            }
-
-            pulse.ApplicationUserId = User.Identity.GetUserId();
-            db.Entry(pulse).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PulseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }*/
 
         // POST: api/Pulses
         /// <summary>

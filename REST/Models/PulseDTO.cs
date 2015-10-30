@@ -18,13 +18,5 @@ namespace REST.Models
         /// Pulse
         /// </summary>
         public int PulseValue { get; set; }
-        /// <summary>
-        /// Date of analysis
-        /// </summary>
-        //public DateTime DateCreated { get; set; }
-        /// <summary>
-        /// User name
-        /// </summary>
-        //public string UserName { get; set; }
     }
 }

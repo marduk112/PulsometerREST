@@ -25,11 +25,19 @@ namespace ExternalProviderAuthentication.Web.Controllers
     {
         private const string LocalLoginProvider = "Local";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
         public AccountController()
             : this(Startup.UserManagerFactory(), Startup.OAuthOptions.AccessTokenFormat)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="accessTokenFormat">The access token format.</param>
         public AccountController(UserManager<IdentityUser> userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
@@ -37,10 +45,26 @@ namespace ExternalProviderAuthentication.Web.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
+        /// <summary>
+        /// Gets the user manager.
+        /// </summary>
+        /// <value>
+        /// The user manager.
+        /// </value>
         public UserManager<IdentityUser> UserManager { get; private set; }
+        /// <summary>
+        /// Gets the access token format.
+        /// </summary>
+        /// <value>
+        /// The access token format.
+        /// </value>
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
+        /// <summary>
+        /// Gets the user information.
+        /// </summary>
+        /// <returns></returns>
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
@@ -56,6 +80,10 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // POST api/Account/Logout
+        /// <summary>
+        /// Logouts this instance.
+        /// </summary>
+        /// <returns></returns>
         [Route("Logout")]
         public IHttpActionResult Logout()
         {
@@ -64,6 +92,12 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
+        /// <summary>
+        /// Gets the manage information.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <param name="generateState">if set to <c>true</c> [generate state].</param>
+        /// <returns></returns>
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
@@ -104,6 +138,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // POST api/Account/ChangePassword
+        /// <summary>
+        /// Changes the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -125,6 +164,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // POST api/Account/SetPassword
+        /// <summary>
+        /// Sets the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
@@ -145,6 +189,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // POST api/Account/AddExternalLogin
+        /// <summary>
+        /// Adds the external login.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
@@ -185,6 +234,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // POST api/Account/RemoveLogin
+        /// <summary>
+        /// Removes the login.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
@@ -216,6 +270,12 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // GET api/Account/ExternalLogin
+        /// <summary>
+        /// Gets the external login.
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="error">The error.</param>
+        /// <returns></returns>
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
@@ -271,6 +331,12 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
+        /// <summary>
+        /// Gets the external logins.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <param name="generateState">if set to <c>true</c> [generate state].</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("ExternalLogins")]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
@@ -312,6 +378,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // POST api/Account/Register
+        /// <summary>
+        /// Registers the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
@@ -339,6 +410,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
         }
 
         // POST api/Account/RegisterExternal
+        /// <summary>
+        /// Registers the external.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
@@ -377,6 +453,10 @@ namespace ExternalProviderAuthentication.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
