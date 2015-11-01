@@ -74,9 +74,9 @@ namespace ExternalProviderAuthentication.Web.Controllers
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
             return new UserInfoViewModel
             {
-                Email = externalLogin?.Email,
+                Email = externalLogin != null ? externalLogin.Email : "",
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin?.LoginProvider,
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : "",
             };
         }
 
