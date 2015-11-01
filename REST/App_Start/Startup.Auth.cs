@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
@@ -76,32 +80,26 @@ namespace REST
             //    consumerKey: "",
             //    consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-                appId: "478916338953318",
-                appSecret: "92c166393ce39d78ece1beda278853e5");
-
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //app.UseFacebookAuthentication(
+            //    appId: "478916338953318",
+            //    appSecret: "92c166393ce39d78ece1beda278853e5");
+            
+            var googleProvider = new GoogleOAuth2AuthenticationProvider
+            {
+                OnAuthenticated = (context) =>
+                {
+                    context.Identity.AddClaim(new Claim(ClaimTypes.Email, context.Email));
+                    return Task.FromResult(0);
+                },
+            };
+            var googleOptions = new GoogleOAuth2AuthenticationOptions
             {
                 ClientId = "233205194812-a9gb3u4i4didt390u6k1l2sfu93mdvpv.apps.googleusercontent.com",
                 ClientSecret = "F1IPtcZk16yTcLqgw56m4A4E",
-            });
-            //Create new test user
-            using (var um = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new ApplicationDbContext())))
-            {
-                const string email = "godfryd2@gmail.com";
-                var existingUser = um.FindByEmail(email);
-                if (existingUser == null)
-                {
-                    um.Create(new IdentityUser
-                    {
-                        Email = email,
-                        EmailConfirmed = true,
-                        UserName = email,
-                        LockoutEnabled = false,
-                    },
-                    "Test1#");
-                }
-            }
+                Provider = googleProvider,
+            };
+            googleOptions.Scope.Add("email");
+            app.UseGoogleAuthentication(googleOptions);
         }
     }
 }

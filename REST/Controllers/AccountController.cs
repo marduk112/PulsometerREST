@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -70,12 +72,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                Email = externalLogin?.Email,
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin?.LoginProvider,
             };
         }
 
@@ -431,7 +432,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
             {
                 return InternalServerError(new Exception("externalLogin"));
             }
-
+            
             IdentityUser user = new IdentityUser
             {
                 UserName = model.Email,
@@ -508,6 +509,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
+            public string Email { get; set; }
 
             public IList<Claim> GetClaims()
             {
@@ -518,6 +520,11 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 {
                     claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
                 }
+                if (Email != null)
+                {
+                    claims.Add(new Claim(ClaimTypes.Email, Email, null, LoginProvider));
+                }
+
 
                 return claims;
             }
@@ -546,7 +553,8 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.Name)
+                    UserName = identity.FindFirstValue(ClaimTypes.Name),
+                    Email = identity.FindFirstValue(ClaimTypes.Email),
                 };
             }
         }
