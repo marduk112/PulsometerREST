@@ -18,5 +18,12 @@ namespace REST.Models
         /// Pulse
         /// </summary>
         public int PulseValue { get; set; }
+        /// <summary>
+        /// Gets or sets the date created.
+        /// </summary>
+        /// <value>
+        /// The date created.
+        /// </value>
+        public DateTime DateCreated { get; set; }
     }
 }

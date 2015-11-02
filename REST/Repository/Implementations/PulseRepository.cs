@@ -21,6 +21,7 @@ namespace REST.Repository.Implementations
                    {
                        Id = p.Id,
                        PulseValue = p.PulseValue,
+                       DateCreated = p.DateCreated,
                    };
         }
 

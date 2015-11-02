@@ -970,6 +970,14 @@
             Pulse
             </summary>
         </member>
+        <member name="P:REST.Models.PulseDTO.DateCreated">
+            <summary>
+            Gets or sets the date created.
+            </summary>
+            <value>
+            The date created.
+            </value>
+        </member>
         <member name="T:REST.Providers.ApplicationOAuthProvider">
             <summary>
             Class that configure authentication and autorization for external login
