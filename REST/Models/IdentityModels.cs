@@ -53,5 +53,13 @@ namespace REST.Models
         /// Pulses table in database
         /// </summary>
         public System.Data.Entity.DbSet<REST.Models.Pulse> Pulses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the events.
+        /// </summary>
+        /// <value>
+        /// The events.
+        /// </value>
+        public System.Data.Entity.DbSet<REST.Models.Event> Events { get; set; }
     }
 }

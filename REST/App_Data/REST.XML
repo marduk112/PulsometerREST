@@ -569,6 +569,44 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:REST.Controllers.EventsController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:REST.Controllers.EventsController.GetEvents">
+            <summary>
+            Gets the events.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Controllers.EventsController.GetEvent(System.Int32)">
+            <summary>
+            Gets the event.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Controllers.EventsController.JoinToEvent(System.Int32)">
+            <summary>
+            Joins to event.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Controllers.EventsController.PostEvent(REST.Models.Event)">
+            <summary>
+            Posts the event.
+            </summary>
+            <param name="event">The event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Controllers.EventsController.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
         <member name="T:REST.Controllers.HomeController">
             <summary>
             Api controller for home page
@@ -891,6 +929,38 @@
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="P:REST.Models.Event.Description">
+            <summary>
+            Gets or sets the event description.
+            </summary>
+            <value>
+            The description.
+            </value>
+        </member>
+        <member name="P:REST.Models.Event.StartDateTimeEvent">
+            <summary>
+            Gets or sets the start date time event.
+            </summary>
+            <value>
+            The start date time event.
+            </value>
+        </member>
+        <member name="P:REST.Models.Event.EventDuration">
+            <summary>
+            Gets or sets the duration of the event.
+            </summary>
+            <value>
+            The duration of the event.
+            </value>
+        </member>
+        <member name="P:REST.Models.Event.Duration">
+            <summary>
+            Gets or sets the duration (in minutes).
+            </summary>
+            <value>
+            The duration.
+            </value>
+        </member>
         <member name="T:REST.Models.ApplicationUser">
             <summary>
             
@@ -924,6 +994,14 @@
             <summary>
             Pulses table in database
             </summary>
+        </member>
+        <member name="P:REST.Models.ApplicationDbContext.Events">
+            <summary>
+            Gets or sets the events.
+            </summary>
+            <value>
+            The events.
+            </value>
         </member>
         <member name="T:REST.Models.Pulse">
             <summary>
