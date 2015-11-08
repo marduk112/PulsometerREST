@@ -27,7 +27,7 @@ namespace REST
         static Startup()
         {
             PublicClientId = "self";
-            UserManagerFactory = () => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>());
+            UserManagerFactory = () => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),

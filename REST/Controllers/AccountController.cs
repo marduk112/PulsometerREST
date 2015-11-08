@@ -433,18 +433,24 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 return InternalServerError(new Exception("externalLogin"));
             }
 
-            ApplicationUser user = new ApplicationUser
+            var id = Guid.NewGuid().ToString();
+            var result = await UserManager.CreateAsync(new ApplicationUser
             {
+                Id = id,
                 UserName = model.Email,
                 Email = model.Email,
-            };
-            user.Logins.Add(new IdentityUserLogin
-            {
-                UserId = user.Id,
-                LoginProvider = externalLogin.LoginProvider,
-                ProviderKey = externalLogin.ProviderKey,
+                EmailConfirmed = true,
+                LockoutEnabled = true,
+                Logins = {
+                    new IdentityUserLogin
+                    {
+                        UserId = id,
+                        LoginProvider = externalLogin.LoginProvider,
+                        ProviderKey = externalLogin.ProviderKey,
+                    },
+                },
             });
-            IdentityResult result = await UserManager.CreateAsync(user);
+            //IdentityResult result = await UserManager.CreateAsync(user);
             IHttpActionResult errorResult = GetErrorResult(result);
 
             if (errorResult != null)
