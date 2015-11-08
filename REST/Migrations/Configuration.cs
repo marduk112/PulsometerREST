@@ -21,13 +21,13 @@ namespace REST.Migrations
             //  This method will be called after migrating to the latest version.
 
             //Create new test user
-            using (var um = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new ApplicationDbContext())))
+            using (var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
             {
                 const string email = "godfryd2@gmail.com";
                 var existingUser = um.FindByEmail(email);
                 if (existingUser == null)
                 {
-                    um.Create(new IdentityUser
+                    um.Create(new ApplicationUser
                     {
                         Email = email,
                         EmailConfirmed = true,

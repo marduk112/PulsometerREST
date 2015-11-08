@@ -40,7 +40,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="accessTokenFormat">The access token format.</param>
-        public AccountController(UserManager<IdentityUser> userManager,
+        public AccountController(UserManager<ApplicationUser> userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
@@ -53,7 +53,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
         /// <value>
         /// The user manager.
         /// </value>
-        public UserManager<IdentityUser> UserManager { get; private set; }
+        public UserManager<ApplicationUser> UserManager { get; private set; }
         /// <summary>
         /// Gets the access token format.
         /// </summary>
@@ -102,7 +102,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
             if (user == null)
             {
@@ -306,7 +306,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            IdentityUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                 externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
@@ -393,7 +393,7 @@ namespace ExternalProviderAuthentication.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityUser user = new IdentityUser
+            ApplicationUser user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,
@@ -432,8 +432,8 @@ namespace ExternalProviderAuthentication.Web.Controllers
             {
                 return InternalServerError(new Exception("externalLogin"));
             }
-            
-            IdentityUser user = new IdentityUser
+
+            ApplicationUser user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,

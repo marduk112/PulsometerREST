@@ -961,6 +961,22 @@
             The duration.
             </value>
         </member>
+        <member name="P:REST.Models.Event.Target">
+            <summary>
+            Gets or sets the target.
+            </summary>
+            <value>
+            The target.
+            </value>
+        </member>
+        <member name="P:REST.Models.Event.ApplicationUsers">
+            <summary>
+            Gets or sets the members application users.
+            </summary>
+            <value>
+            The members application users.
+            </value>
+        </member>
         <member name="T:REST.Models.ApplicationUser">
             <summary>
             
@@ -1023,12 +1039,12 @@
             Date of analysis
             </summary>
         </member>
-        <member name="P:REST.Models.Pulse.IdentityUserId">
+        <member name="P:REST.Models.Pulse.ApplicationUserId">
             <summary>
             Foreign key to AppNetUsers table
             </summary>
         </member>
-        <member name="P:REST.Models.Pulse.IdentityUser">
+        <member name="P:REST.Models.Pulse.ApplicationUser">
             <summary>
             Atribute for get data about user
             </summary>
@@ -1071,7 +1087,7 @@
             Initializes a new instance of the <see cref="T:ExternalProviderAuthentication.Web.Controllers.AccountController"/> class.
             </summary>
         </member>
-        <member name="M:ExternalProviderAuthentication.Web.Controllers.AccountController.#ctor(Microsoft.AspNet.Identity.UserManager{Microsoft.AspNet.Identity.EntityFramework.IdentityUser},Microsoft.Owin.Security.ISecureDataFormat{Microsoft.Owin.Security.AuthenticationTicket})">
+        <member name="M:ExternalProviderAuthentication.Web.Controllers.AccountController.#ctor(Microsoft.AspNet.Identity.UserManager{REST.Models.ApplicationUser},Microsoft.Owin.Security.ISecureDataFormat{Microsoft.Owin.Security.AuthenticationTicket})">
             <summary>
             Initializes a new instance of the <see cref="T:ExternalProviderAuthentication.Web.Controllers.AccountController"/> class.
             </summary>

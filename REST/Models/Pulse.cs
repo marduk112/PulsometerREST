@@ -34,11 +34,11 @@ namespace REST.Models
         /// Foreign key to AppNetUsers table
         /// </summary>
         [JsonIgnore]
-        public string IdentityUserId { get; set; }
+        public string ApplicationUserId { get; set; }
         /// <summary>
         /// Atribute for get data about user
         /// </summary>
         [JsonIgnore]
-        public virtual IdentityUser IdentityUser { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

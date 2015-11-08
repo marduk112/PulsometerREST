@@ -11,8 +11,9 @@ namespace REST.Models
     public class Event
     {
         public int Id { get; set; }
-        [Required]
+        [Required, ForeignKey("ApplicationUser")]
         public string CreatorId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         [Required, Index(IsUnique = true), StringLength(450)]
         public string Name { get; set; }
         /// <summary>
@@ -48,9 +49,22 @@ namespace REST.Models
         /// </value>
         [Required]
         public int Duration { get; set; }
+        /// <summary>
+        /// Gets or sets the target.
+        /// </summary>
+        /// <value>
+        /// The target.
+        /// </value>
         [Required]
         public Target Target { get; set; }
-        public virtual ICollection<IdentityUser> Members { get; set; }
+        /// <summary>
+        /// Gets or sets the members application users.
+        /// </summary>
+        /// <value>
+        /// The members application users.
+        /// </value>
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        //public virtual ICollection<ApplicationUser> GrantedApplicationUsers { get; set; } 
     }
 
     public enum Target

@@ -16,7 +16,7 @@ namespace REST.Repository.Implementations
         public IQueryable<PulseDTO> GetAll(string userId)
         {
             return from p in db.Pulses
-                   where p.IdentityUserId.Equals(userId)
+                   where p.ApplicationUserId.Equals(userId)
                    select new PulseDTO
                    {
                        Id = p.Id,
@@ -32,7 +32,7 @@ namespace REST.Repository.Implementations
 
         public async Task Add(Pulse pulse, string userId)
         {
-            pulse.IdentityUserId = userId;
+            pulse.ApplicationUserId = userId;
             db.Pulses.Add(pulse);
             await db.SaveChangesAsync();
         }
@@ -40,7 +40,7 @@ namespace REST.Repository.Implementations
         public IQueryable<DateDto> GetMeasurementsDates(string userId)
         {
             return (from p in db.Pulses
-                where p.IdentityUserId.Equals(userId)
+                where p.ApplicationUserId.Equals(userId)
                 select new DateDto
                 {
                     MeasurementDate = p.DateCreated,
@@ -51,7 +51,7 @@ namespace REST.Repository.Implementations
         public IQueryable<PulseDTO> GetMeasurements(string userId, DateTime date)
         {
             return from p in db.Pulses
-                where p.IdentityUserId.Equals(userId) && p.DateCreated == date
+                where p.ApplicationUserId.Equals(userId) && p.DateCreated == date
                 select new PulseDTO
                 {
                     Id = p.Id,

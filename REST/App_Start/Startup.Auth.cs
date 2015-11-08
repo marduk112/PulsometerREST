@@ -27,7 +27,7 @@ namespace REST
         static Startup()
         {
             PublicClientId = "self";
-            UserManagerFactory = () => new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+            UserManagerFactory = () => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>());
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
@@ -48,7 +48,7 @@ namespace REST
         /// Client Id
         /// </summary>
         public static string PublicClientId { get; private set; }
-        public static Func<UserManager<IdentityUser>> UserManagerFactory { get; set; }
+        public static Func<UserManager<ApplicationUser>> UserManagerFactory { get; set; }
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         /// <summary>
@@ -100,6 +100,23 @@ namespace REST
             };
             googleOptions.Scope.Add("email");
             app.UseGoogleAuthentication(googleOptions);
+
+            /*using (var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                const string email = "godfryd2@gmail.com";
+                var existingUser = um.FindByEmail(email);
+                if (existingUser == null)
+                {
+                    um.Create(new ApplicationUser
+                    {
+                        Email = email,
+                        EmailConfirmed = true,
+                        UserName = email,
+                        LockoutEnabled = false,
+                    },
+                    "Test1#");
+                }
+            }*/
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -12,6 +13,7 @@ namespace REST.Models
     /// </summary>
     public class ApplicationUser : IdentityUser
     {
+        public virtual ICollection<Event> Events { get; set; } 
         /// <summary>
         /// Generates the user identity asynchronous.
         /// </summary>
@@ -30,7 +32,7 @@ namespace REST.Models
     /// <summary>
     /// DB context of application
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         /// <summary>
         /// Sets connectionstring

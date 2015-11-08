@@ -64,12 +64,13 @@ namespace REST.Controllers
             {
                 return NotFound();
             }
-            using (var um = new UserManager<IdentityUser>(new UserStore<IdentityUser>(new ApplicationDbContext())))
+            using (var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
             {
                 var user = await um.FindByIdAsync(User.Identity.GetUserId());
-                if (!@event.Members.Any(x => x.Id.Equals(user.Id)))
+                if (!@event.ApplicationUsers.Any(x => x.Id.Equals(user.Id)))
                 {
-                    @event.Members.Add(user);
+                    @event.ApplicationUsers.Add(user);
+                    db.Entry(@event).State = EntityState.Modified;
                     await db.SaveChangesAsync();
                 }
             }
