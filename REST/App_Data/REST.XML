@@ -601,12 +601,6 @@
             <param name="event">The event.</param>
             <returns></returns>
         </member>
-        <member name="M:REST.Controllers.EventsController.Dispose(System.Boolean)">
-            <summary>
-            Releases unmanaged and - optionally - managed resources.
-            </summary>
-            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        </member>
         <member name="T:REST.Controllers.HomeController">
             <summary>
             Api controller for home page
@@ -969,14 +963,6 @@
             The target.
             </value>
         </member>
-        <member name="P:REST.Models.Event.ApplicationUsers">
-            <summary>
-            Gets or sets the members application users.
-            </summary>
-            <value>
-            The members application users.
-            </value>
-        </member>
         <member name="T:REST.Models.ApplicationUser">
             <summary>
             
@@ -1006,6 +992,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:REST.Models.ApplicationDbContext.OnModelCreating(System.Data.Entity.DbModelBuilder)">
+            <summary>
+            Called when [model creating].
+            </summary>
+            <param name="modelBuilder">The model builder.</param>
+        </member>
         <member name="P:REST.Models.ApplicationDbContext.Pulses">
             <summary>
             Pulses table in database
@@ -1017,6 +1009,14 @@
             </summary>
             <value>
             The events.
+            </value>
+        </member>
+        <member name="P:REST.Models.ApplicationDbContext.EventUsers">
+            <summary>
+            Gets or sets the event users.
+            </summary>
+            <value>
+            The event users.
             </value>
         </member>
         <member name="T:REST.Models.Pulse">
@@ -1075,6 +1075,103 @@
         <member name="T:REST.Providers.ApplicationOAuthProvider">
             <summary>
             Class that configure authentication and autorization for external login
+            </summary>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.GetEvents">
+            <summary>
+            Gets the events.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.GetEvent(System.Int32)">
+            <summary>
+            Gets the event.
+            </summary>
+            <param name="eventId">The event identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.JoinToEvent(System.String,REST.Models.Event)">
+            <summary>
+            Joins to event.
+            </summary>
+            <param name="userId">The user identifier.</param>
+            <param name="event">The event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.AddNewEvent(REST.Models.Event)">
+            <summary>
+            Adds the new event.
+            </summary>
+            <param name="event">The event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:REST.Repository.Implementations.EventRepository"/> class.
+            </summary>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.GetAll(System.String)">
+            <summary>
+            Gets all.
+            </summary>
+            <param name="userId">The user identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.GetById(System.Int32)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.Add(REST.Models.Pulse,System.String)">
+            <summary>
+            Adds the specified pulse.
+            </summary>
+            <param name="pulse">The pulse.</param>
+            <param name="userId">The user identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.GetMeasurementsDates(System.String)">
+            <summary>
+            Gets the measurements dates.
+            </summary>
+            <param name="userId">The user identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.GetMeasurements(System.String,System.DateTime)">
+            <summary>
+            Gets the measurements.
+            </summary>
+            <param name="userId">The user identifier.</param>
+            <param name="date">The date.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:REST.Repository.Implementations.PulseRepository"/> class.
+            </summary>
+        </member>
+        <member name="M:REST.Repository.Implementations.PulseRepository.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
         </member>
         <member name="T:REST.UnityResolver">

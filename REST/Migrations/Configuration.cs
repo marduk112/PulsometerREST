@@ -20,7 +20,6 @@ namespace REST.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            //Create new test user
             using (var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
             {
                 const string email = "godfryd2@gmail.com";

@@ -21,14 +21,11 @@ namespace REST.Migrations
                         EventDuration = c.Int(nullable: false),
                         Duration = c.Int(nullable: false),
                         Target = c.Int(nullable: false),
-                        ApplicationUser_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatorId, cascadeDelete: true)
                 .Index(t => t.CreatorId)
-                .Index(t => t.Name, unique: true)
-                .Index(t => t.ApplicationUser_Id);
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -46,12 +43,9 @@ namespace REST.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        Event_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Events", t => t.Event_Id)
-                .Index(t => t.UserName, unique: true, name: "UserNameIndex")
-                .Index(t => t.Event_Id);
+                .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -65,6 +59,21 @@ namespace REST.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.EventUsers",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ApplicationUserId = c.String(maxLength: 128),
+                        EventId = c.Int(nullable: false),
+                        Passed = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
+                .ForeignKey("dbo.Events", t => t.EventId, cascadeDelete: true)
+                .Index(t => t.ApplicationUserId)
+                .Index(t => t.EventId);
             
             CreateTable(
                 "dbo.AspNetUserLogins",
@@ -120,27 +129,28 @@ namespace REST.Migrations
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Pulses", "ApplicationUserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "Event_Id", "dbo.Events");
+            DropForeignKey("dbo.EventUsers", "EventId", "dbo.Events");
             DropForeignKey("dbo.Events", "CreatorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Events", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.EventUsers", "ApplicationUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Pulses", new[] { "ApplicationUserId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.EventUsers", new[] { "EventId" });
+            DropIndex("dbo.EventUsers", new[] { "ApplicationUserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", new[] { "Event_Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Events", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.Events", new[] { "Name" });
             DropIndex("dbo.Events", new[] { "CreatorId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Pulses");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.EventUsers");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Events");

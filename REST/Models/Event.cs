@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json;
 
 namespace REST.Models
 {
@@ -13,6 +14,7 @@ namespace REST.Models
         public int Id { get; set; }
         [Required, ForeignKey("ApplicationUser")]
         public string CreatorId { get; set; }
+        [JsonIgnore]
         public ApplicationUser ApplicationUser { get; set; }
         [Required, Index(IsUnique = true), StringLength(450)]
         public string Name { get; set; }
@@ -58,13 +60,13 @@ namespace REST.Models
         [Required]
         public Target Target { get; set; }
         /// <summary>
-        /// Gets or sets the members application users.
+        /// Gets or sets the event users.
         /// </summary>
         /// <value>
-        /// The members application users.
+        /// The event users.
         /// </value>
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
-        //public virtual ICollection<ApplicationUser> GrantedApplicationUsers { get; set; } 
+        [JsonIgnore]
+        public virtual ICollection<EventUser> EventUsers { get; set; }
     }
 
     public enum Target

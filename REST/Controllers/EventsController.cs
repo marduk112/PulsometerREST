@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using REST.Models;
+using REST.Repository.Interfaces;
 
 namespace REST.Controllers
 {
@@ -21,7 +22,12 @@ namespace REST.Controllers
     [Authorize]
     public class EventsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IEventRepository _repository;
+
+        public EventsController(IEventRepository repository)
+        {
+            _repository = repository;
+        }
 
         // GET: api/Events
         /// <summary>
@@ -30,7 +36,7 @@ namespace REST.Controllers
         /// <returns></returns>
         public IQueryable<Event> GetEvents()
         {
-            return db.Events;
+            return _repository.GetEvents().AsQueryable();
         }
 
         // GET: api/Events/5
@@ -42,7 +48,7 @@ namespace REST.Controllers
         [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> GetEvent(int id)
         {
-            Event @event = await db.Events.FindAsync(id);
+            var @event = await _repository.GetEvent(id);
             if (@event == null)
             {
                 return NotFound();
@@ -59,21 +65,14 @@ namespace REST.Controllers
         [Route("api/JoinToEvent"), HttpPost]
         public async Task<IHttpActionResult> JoinToEvent(int id)
         {
-            var @event = await db.Events.FindAsync(id);
-            if (@event == null)
+            Event @event;
+            using (var db = new ApplicationDbContext())
             {
-                return NotFound();
+                @event = await db.Events.FindAsync(id);
+                if (@event == null)
+                    return BadRequest("Event with id " + id + " doesn't exist");
             }
-            using (var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
-            {
-                var user = await um.FindByIdAsync(User.Identity.GetUserId());
-                if (!@event.ApplicationUsers.Any(x => x.Id.Equals(user.Id)))
-                {
-                    @event.ApplicationUsers.Add(user);
-                    db.Entry(@event).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-                }
-            }
+            await _repository.JoinToEvent(User.Identity.GetUserId(), @event);
             return Ok();
         }
 
@@ -126,8 +125,7 @@ namespace REST.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Events.Add(@event);
-            await db.SaveChangesAsync();
+            await _repository.AddNewEvent(@event);
 
             return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
         }
@@ -147,23 +145,5 @@ namespace REST.Controllers
 
             return Ok(@event);
         }*/
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool EventExists(int id)
-        {
-            return db.Events.Any(x => x.Id == id);
-        }
     }
 }

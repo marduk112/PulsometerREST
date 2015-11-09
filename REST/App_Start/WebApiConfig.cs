@@ -24,6 +24,7 @@ namespace REST
         {
             var container = new UnityContainer();
             container.RegisterType<IPulseRepository, PulseRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IEventRepository, EventRepository>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
