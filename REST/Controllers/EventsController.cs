@@ -125,6 +125,7 @@ namespace REST.Controllers
                 return BadRequest(ModelState);
             }
 
+            @event.CreatorId = User.Identity.GetUserId();
             await _repository.AddNewEvent(@event);
 
             return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);

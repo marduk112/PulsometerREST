@@ -12,7 +12,7 @@ namespace REST.Models
     public class Event
     {
         public int Id { get; set; }
-        [Required, ForeignKey("ApplicationUser")]
+        [ForeignKey("ApplicationUser")]
         public string CreatorId { get; set; }
         [JsonIgnore]
         public ApplicationUser ApplicationUser { get; set; }

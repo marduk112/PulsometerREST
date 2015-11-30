@@ -963,10 +963,26 @@
             The target.
             </value>
         </member>
+        <member name="P:REST.Models.Event.EventUsers">
+            <summary>
+            Gets or sets the event users.
+            </summary>
+            <value>
+            The event users.
+            </value>
+        </member>
         <member name="T:REST.Models.ApplicationUser">
             <summary>
             
             </summary>
+        </member>
+        <member name="P:REST.Models.ApplicationUser.EventUsers">
+            <summary>
+            Gets or sets the event users.
+            </summary>
+            <value>
+            The event users.
+            </value>
         </member>
         <member name="M:REST.Models.ApplicationUser.GenerateUserIdentityAsync(Microsoft.AspNet.Identity.UserManager{REST.Models.ApplicationUser},System.String)">
             <summary>
