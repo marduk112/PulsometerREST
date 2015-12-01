@@ -74,7 +74,7 @@ namespace REST.Controllers
                     return BadRequest("Event with id " + id + " doesn't exist");
             }
             await _repository.JoinToEvent(User.Identity.GetUserId(), @event);
-            return Ok();
+            return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
         }
 
         // PUT: api/Events/5
@@ -137,7 +137,7 @@ namespace REST.Controllers
         /// </summary>
         /// <param name="eventId">The event identifier.</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPatch]
         public async Task<IHttpActionResult> SetEventAsPassed(int eventId)
         {
             await _repository.SetEventAsSuccess(eventId);

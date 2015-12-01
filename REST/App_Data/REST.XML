@@ -601,6 +601,13 @@
             <param name="event">The event.</param>
             <returns></returns>
         </member>
+        <member name="M:REST.Controllers.EventsController.SetEventAsPassed(System.Int32)">
+            <summary>
+            Sets the event as passed.
+            </summary>
+            <param name="eventId">The event identifier.</param>
+            <returns></returns>
+        </member>
         <member name="T:REST.Controllers.HomeController">
             <summary>
             Api controller for home page
@@ -1119,6 +1126,13 @@
             Adds the new event.
             </summary>
             <param name="event">The event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:REST.Repository.Implementations.EventRepository.SetEventAsSuccess(System.Int32)">
+            <summary>
+            Sets the event as success.
+            </summary>
+            <param name="eventId">The event identifier.</param>
             <returns></returns>
         </member>
         <member name="M:REST.Repository.Implementations.EventRepository.Dispose(System.Boolean)">
