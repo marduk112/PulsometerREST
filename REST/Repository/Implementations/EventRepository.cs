@@ -68,6 +68,23 @@ namespace REST.Repository.Implementations
         {
             _db.Events.Add(@event);
             await _db.SaveChangesAsync();
+            await JoinToEvent(@event.CreatorId, @event);
+        }
+
+        /// <summary>
+        /// Sets the event as success.
+        /// </summary>
+        /// <param name="eventId">The event identifier.</param>
+        /// <returns></returns>
+        public async Task SetEventAsSuccess(int eventId)
+        {
+            var @event = await _db.EventUsers.SingleOrDefaultAsync(x => x.EventId == eventId);
+            if (@event != null)
+            {
+                @event.Passed = true;
+                _db.Entry(@event).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+            }
         }
 
         /// <summary>

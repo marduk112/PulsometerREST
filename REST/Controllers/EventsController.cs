@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -129,6 +130,18 @@ namespace REST.Controllers
             await _repository.AddNewEvent(@event);
 
             return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
+        }
+
+        /// <summary>
+        /// Sets the event as passed.
+        /// </summary>
+        /// <param name="eventId">The event identifier.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IHttpActionResult> SetEventAsPassed(int eventId)
+        {
+            await _repository.SetEventAsSuccess(eventId);
+            return Ok();
         }
 
         // DELETE: api/Events/5

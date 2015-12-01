@@ -14,5 +14,6 @@ namespace REST.Repository.Interfaces
         Task<Event> GetEvent(int eventId);
         Task JoinToEvent(string userId, Event @event);
         Task AddNewEvent(Event @event);
+        Task SetEventAsSuccess(int eventId);
     }
 }
