@@ -78,7 +78,7 @@ namespace REST.Repository.Implementations
         public IQueryable<PulseDTO> GetMeasurements(string userId, DateTime date)
         {
             return from p in db.Pulses
-                where p.ApplicationUserId.Equals(userId) && p.DateCreated == date
+                where p.ApplicationUserId.Equals(userId) && p.DateCreated.Equals(date)
                 select new PulseDTO
                 {
                     Id = p.Id,
