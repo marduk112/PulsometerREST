@@ -70,7 +70,7 @@ namespace REST.Controllers
             if (@event == null)
                 return BadRequest("Event with id " + id + " doesn't exist");
             await _repository.JoinToEvent(User.Identity.GetUserId(), @event);
-            return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
+            return StatusCode(HttpStatusCode.Created);
         }
 
         // PUT: api/Events/5
