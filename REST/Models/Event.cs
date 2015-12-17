@@ -25,8 +25,14 @@ namespace REST.Models
         /// The description.
         /// </value>
         public string Description { get; set; }
-        public int Min { get; set; }
-        public int Max { get; set; }
+        /// <summary>
+        /// Gets or sets the steps number.
+        /// </summary>
+        /// <value>
+        /// The steps number.
+        /// </value>
+        [Required]
+        public int StepsNumber { get; set; }
         /// <summary>
         /// Gets or sets the start date time event.
         /// </summary>
@@ -36,29 +42,13 @@ namespace REST.Models
         [Required]
         public DateTime StartDateTimeEvent { get; set; }
         /// <summary>
-        /// Gets or sets the duration of the event.
+        /// Gets or sets the end date time event.
         /// </summary>
         /// <value>
-        /// The duration of the event.
+        /// The end date time event.
         /// </value>
         [Required]
-        public int EventDuration { get; set; }
-        /// <summary>
-        /// Gets or sets the duration (in minutes).
-        /// </summary>
-        /// <value>
-        /// The duration.
-        /// </value>
-        [Required]
-        public int Duration { get; set; }
-        /// <summary>
-        /// Gets or sets the target.
-        /// </summary>
-        /// <value>
-        /// The target.
-        /// </value>
-        [Required]
-        public Target Target { get; set; }
+        public DateTime EndDateTimeEvent { get; set; }
         /// <summary>
         /// Gets or sets the event users.
         /// </summary>
@@ -67,12 +57,5 @@ namespace REST.Models
         /// </value>
         [JsonIgnore]
         public virtual ICollection<EventUser> EventUsers { get; set; }
-    }
-
-    public enum Target
-    {
-        Min,
-        Max,
-        Between,
     }
 }

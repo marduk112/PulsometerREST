@@ -938,6 +938,14 @@
             The description.
             </value>
         </member>
+        <member name="P:REST.Models.Event.StepsNumber">
+            <summary>
+            Gets or sets the steps number.
+            </summary>
+            <value>
+            The steps number.
+            </value>
+        </member>
         <member name="P:REST.Models.Event.StartDateTimeEvent">
             <summary>
             Gets or sets the start date time event.
@@ -946,28 +954,12 @@
             The start date time event.
             </value>
         </member>
-        <member name="P:REST.Models.Event.EventDuration">
+        <member name="P:REST.Models.Event.EndDateTimeEvent">
             <summary>
-            Gets or sets the duration of the event.
+            Gets or sets the end date time event.
             </summary>
             <value>
-            The duration of the event.
-            </value>
-        </member>
-        <member name="P:REST.Models.Event.Duration">
-            <summary>
-            Gets or sets the duration (in minutes).
-            </summary>
-            <value>
-            The duration.
-            </value>
-        </member>
-        <member name="P:REST.Models.Event.Target">
-            <summary>
-            Gets or sets the target.
-            </summary>
-            <value>
-            The target.
+            The end date time event.
             </value>
         </member>
         <member name="P:REST.Models.Event.EventUsers">
