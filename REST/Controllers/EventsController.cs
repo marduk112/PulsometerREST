@@ -66,13 +66,9 @@ namespace REST.Controllers
         [Route("api/JoinToEvent"), HttpPost]
         public async Task<IHttpActionResult> JoinToEvent(int id)
         {
-            Event @event;
-            using (var db = new ApplicationDbContext())
-            {
-                @event = await db.Events.FindAsync(id);
-                if (@event == null)
-                    return BadRequest("Event with id " + id + " doesn't exist");
-            }
+            var @event = await _repository.GetEvent(id);
+            if (@event == null)
+                return BadRequest("Event with id " + id + " doesn't exist");
             await _repository.JoinToEvent(User.Identity.GetUserId(), @event);
             return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
         }
