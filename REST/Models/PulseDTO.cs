@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace REST.Models
 {
@@ -24,6 +25,7 @@ namespace REST.Models
         /// <value>
         /// The date created.
         /// </value>
+        [JsonIgnore]
         public DateTime DateCreated { get; set; }
     }
 }
